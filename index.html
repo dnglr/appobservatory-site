@@ -6,6 +6,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AppObservatory Beta Coming Soon!</title>
     <script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
+    <style>
+        #form-thanks {
+            display: none;
+          }
+      
+          #form {
+            font-size: 1.25rem;
+            line-height: 1.5;
+          }
+      
+          #form label {
+            text-transform: uppercase;
+            font-weight: bold;
+            display: inline-block;
+            vertical-align: middle;
+          }
+      
+          #form input {
+            appearance: none;
+            border: solid 1px rgba(0,0,0,0.9);
+            display: inline-block;
+            padding: 8px 10px;
+            vertical-align: middle;
+            margin-left: 10px;
+          }
+          
+          #form button {
+            appearance: none;
+            border: 0 none;
+            border-radius: 5px;
+            background-color: black;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.25s ease-in-out;
+            cursor: pointer;
+          }
+      
+          #form button:hover {
+            padding: 10px 30px;
+          }
+      
+          #form .g-recaptcha {
+            width: max-content;
+            margin: 0 auto;
+          }
+    </style>
 </head>
 <body>
     <div class="flex flex-col justify-center items-center text-center space-y-8 min-h-[100vh] w-[80vw] max-w-5xl mx-auto">
@@ -18,6 +66,41 @@
             More information as well as a beta will be coming soon. Sign up below to be the 
             first to check it out!
         </p>
+        <div id="form-container">
+            <form id="form" name="subscribe" method="POST" data-netlify="true" data-netlify-recaptcha="true" class="space-y-4">
+                <p>
+                    <label>Name: <input type="text" name="name" required /></label>   
+                </p>
+                <p>
+                    <label>Email: <input type="email" name="email" required /></label>
+                </p>
+                <div data-netlify-recaptcha="true"></div>
+                <p>
+                    <button type="submit">Send</button>
+                </p>
+            </form>
+        </div>
+        <div id="form-thanks">
+            <h2 class="text-3xl">Thanks!</h2>
+            <p class="text-xl">I will be reaching out as soon as it's ready to test.<br>I can't wait to share this with you!</p>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+        var $formThanks = $("#form-thanks");
+        var $formContainer = $("#form-container");
+        $("#form").submit(function(e) {
+            e.preventDefault();
+            var $form = $(this);
+            $.post($form.attr("action"), $form.serialize()).then(function() {
+            $formContainer.remove();
+            $formThanks.show();
+            setTimeout(function(){
+                $formThanks[0].scrollIntoView();
+            }, 100);
+            
+            });
+        });
+        </script>
     </div>
 
 </body>
